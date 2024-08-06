@@ -6,11 +6,11 @@ RUN apk update && apk upgrade
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
 RUN cd /root/
-RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git tgbotserver
-RUN cd tgbotserver
+RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git /root/tgbotserver
+RUN cd /root/tgbotserver
 
 RUN rm -r -f build && mkdir build && cd build
-RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=..
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=/root/tgbotserver/ .
 RUN cmake --build . --target install
 
 RUN cd /root/
