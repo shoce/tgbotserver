@@ -11,7 +11,7 @@ RUN cd /root/tgbotserver
 RUN ls -l -a /root/tgbotserver/ /root/tgbotserver/*/
 
 RUN rm -r -f /root/tgbotserver/build && mkdir /root/tgbotserver/build && cd /root/tgbotserver/build
-RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=/root/tgbotserver/ ..
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=/root/tgbotserver/ /root/tgbotserver/
 RUN cmake --build . --target install
 
 RUN cd /root/
