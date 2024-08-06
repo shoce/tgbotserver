@@ -21,6 +21,7 @@ RUN ls -l -a /root/tgbotserver/*/
 
 # https://hub.docker.com/_/alpine/tags
 FROM alpine:3.20.2
-
-COPY --from=build /root/tgbotserver /opt/tgbotserver
+COPY --from=build /root/tgbotserver/bin/telegram-bot-api /opt/tgbotserver/tgbotserver
+WORKDIR /opt/tgbotserver/
+ENTRYPOINT ["./tgbotserver"]
 
