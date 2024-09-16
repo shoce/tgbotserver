@@ -1,6 +1,6 @@
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.3 as build-amd64
+FROM alpine:3.20.3 AS build-amd64
 
 RUN apk upgrade --no-cache
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
@@ -20,7 +20,7 @@ RUN ls -l -a /root/tgbotserver/*/
 
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.3 as build-aarch64
+FROM alpine:3.20.3 AS build-aarch64
 
 RUN apk upgrade --no-cache
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
@@ -45,7 +45,8 @@ RUN apk upgrade --no-cache
 RUN apk add --no-cache openssl zlib libstdc++
 COPY --from=build-amd64 /root/tgbotserver/bin/telegram-bot-api /opt/tgbotserver/tgbotserver.amd64
 COPY --from=build-aarch64 /root/tgbotserver/bin/telegram-bot-api /opt/tgbotserver/tgbotserver.aarch64
+RUN ls -l -a /opt/tgbotserver/
 WORKDIR /opt/tgbotserver/
-ENTRYPOINT ["/opt/tgbotserver/tgbotserver", "--http-port=80", "--local", "--log=/dev/stdout"]
+ENTRYPOINT ["/opt/tgbotserver/tgbotserver.amd64", "--http-port=80", "--local", "--log=/dev/stdout"]
 
 
