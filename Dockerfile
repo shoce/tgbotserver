@@ -28,6 +28,6 @@ RUN apk add --no-cache openssl zlib libstdc++
 COPY --from=build /root/tgbotserver/bin/telegram-bot-api /bin/tgbotserver
 RUN ls -l -a /bin/tgbotserver
 WORKDIR /root/
-ENTRYPOINT ["/bin/tgbotserver", "--http-port=80", "--local", "--log=/dev/stdout"]
+ENTRYPOINT ["/bin/tgbotserver", "--http-port=80", "--local"]
 
 
