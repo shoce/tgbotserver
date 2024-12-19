@@ -18,7 +18,7 @@ spec:
       containers:
         - name: tgbotserver
           imagePullPolicy: IfNotPresent
-          image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
+          image: "{{ $.Values.ImageNameTgBotServer }}:{{ $.Values.ImageTagTgBotServer }}"
           ports:
             - containerPort: 80
           envFrom:
