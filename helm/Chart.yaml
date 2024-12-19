@@ -1,0 +1,8 @@
+apiVersion: v2
+name: helm.tgbotserver
+description: Telegram bot server
+type: application
+version: __VERSION__
+appVersion: __VERSION__
+home: https://github.com/shoce/tgbotserver/tree/main/helm/
+

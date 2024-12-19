@@ -16,7 +16,6 @@ RUN rm -r -f /root/tgbotserver/build && mkdir /root/tgbotserver/build && cd /roo
 RUN cmake -DCMAKE_SYSTEM_PROCESSOR=$TARGETARCH -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=/root/tgbotserver/ /root/tgbotserver/
 RUN cmake --build . --target install
 
-RUN cd /root/
 RUN ls -l -a /root/tgbotserver/*/
 
 

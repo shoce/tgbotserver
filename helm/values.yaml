@@ -1,0 +1,11 @@
+---
+
+DEBUG: false
+
+ImageNameGithubTgBotServer: ghcr.io/shoce/tgbotserver
+ImageTagGithubTgBotServer: ""
+
+TgBotServerApiId: ""
+TgBotServerApiHash: ""
+
+
