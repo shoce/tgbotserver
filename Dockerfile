@@ -1,7 +1,7 @@
 
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.3 AS build
+FROM alpine:3.21.2 AS build
 ARG TARGETARCH
 WORKDIR /root/
 
@@ -21,7 +21,7 @@ RUN ls -l -a /root/tgbotserver/*/
 
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.20.3
+FROM alpine:3.21.2
 RUN apk upgrade --no-cache
 RUN apk add --no-cache openssl zlib libstdc++
 COPY --from=build /root/tgbotserver/bin/telegram-bot-api /bin/tgbotserver

@@ -2,8 +2,8 @@
 
 DEBUG: false
 
-ImageNameTgBotServer: ghcr.io/shoce/tgbotserver
-ImageTagTgBotServer: ""
+ImageNameGithubTgBotServer: ghcr.io/shoce/tgbotserver
+ImageTagGithubTgBotServer: ""
 
 TgBotServerApiId: ""
 TgBotServerApiHash: ""

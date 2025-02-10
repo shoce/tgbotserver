@@ -1,10 +1,14 @@
 ---
+
 apiVersion: apps/v1
 kind: StatefulSet
+
 metadata:
   name: tgbotserver
+  namespace: {{ $.Release.Namespace }}
   labels:
     app: tgbotserver
+
 spec:
   selector:
     matchLabels:
@@ -14,11 +18,13 @@ spec:
       name: tgbotserver
       labels:
         app: tgbotserver
+
     spec:
       containers:
+
         - name: tgbotserver
           imagePullPolicy: IfNotPresent
-          image: "{{ $.Values.ImageNameTgBotServer }}:{{ $.Values.ImageTagTgBotServer }}"
+          image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
           ports:
             - containerPort: 80
           envFrom:
