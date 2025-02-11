@@ -13,6 +13,7 @@ on:
     paths-ignore:
       - 'helm/**'
       - '.github/workflows/helm.yaml'
+      - '.github/workflows/docker.yaml'
 
 env:
   REGISTRY: ghcr.io
