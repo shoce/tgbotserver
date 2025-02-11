@@ -23,11 +23,14 @@ spec:
       containers:
 
         - name: tgbotserver
-          imagePullPolicy: IfNotPresent
           image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: tgbotserver
+          env:
+            - name: TELEGRAM_API_ID
+              value: "{{ $.Values.TgBotServerApiId }}"
+            - name: TELEGRAM_API_HASH
+              value: "{{ $.Values.TgBotServerApiHash }}"
+
 
