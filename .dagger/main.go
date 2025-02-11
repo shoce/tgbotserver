@@ -48,7 +48,7 @@ func (m *Tgbotserver) Build() []*dagger.Container {
 			fmt.Printf("arch==%s"+NL, arch)
 
 			// https://hub.docker.com/_/alpine/tags/
-			a := dag.Container().
+			a := dag.Container(dagger.ContainerOpts{Platform: platform}).
 				From(AlpineDockerImage).
 				WithExec([]string{"apk", "upgrade", "--no-cache"}).
 				WithExec([]string{"apk", "add", "--no-cache", "alpine-sdk", "linux-headers", "zlib-dev", "openssl-dev", "gperf", "cmake"}).
