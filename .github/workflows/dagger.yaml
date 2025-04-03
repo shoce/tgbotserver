@@ -21,13 +21,51 @@ env:
   DAGGER_NO_NAG: 1
 
 jobs:
-  build-publish:
-    runs-on: ubuntu-latest
+
+  build-publish-amd64:
+    runs-on: ubuntu-24.04
     steps:
 
       - name: version
         run: |
-          VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
+          ARCH=amd64
+          VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )-$ARCH
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v4
+
+      - uses: dagger/dagger-for-github@v7
+        with:
+          version: latest
+          call: publish
+            --registry=$REGISTRY
+            --username=${{ github.repository_owner }}
+            --password=env:GITHUB_TOKEN
+            --image=${{ github.repository }}:${{ env.VERSION }}
+
+      - name: tag
+        run: |
+          git config user.name github-actions
+          git config user.email "github-actions@users.noreply.github.com"
+          git tag $VERSION
+          git push origin $VERSION
+
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: ${{ github.event.repository.name }}
+          package-type: container
+          min-versions-to-keep: 12
+          delete-only-untagged-versions: "false"
+
+
+  build-publish-arm64:
+    runs-on: ubuntu-24.04-arm
+    steps:
+
+      - name: version
+        run: |
+          ARCH=arm64
+          VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )-$ARCH
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - uses: actions/checkout@v4
