@@ -11,15 +11,12 @@ import (
 )
 
 const (
-	SourceGitUrl      = "https://github.com/tdlib/telegram-bot-api"
-
-	// https://hub.docker.com/_/golang/tags
-	GolangDockerImage = "golang:1.24.2"
+	SourceGitUrl = "https://github.com/tdlib/telegram-bot-api"
 
 	// https://hub.docker.com/_/alpine/tags/
 	AlpineDockerImage = "alpine:3.21.3"
 
-	ExposedPort       = 80
+	ExposedPort = 80
 
 	NL = "\n"
 )
