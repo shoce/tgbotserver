@@ -29,6 +29,7 @@ jobs:
       - name: version
         run: |
           ARCH=amd64
+          echo "ARCH=$ARCH" >> $GITHUB_ENV
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -65,6 +66,7 @@ jobs:
       - name: version
         run: |
           ARCH=arm64
+          echo "ARCH=$ARCH" >> $GITHUB_ENV
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
