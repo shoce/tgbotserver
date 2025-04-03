@@ -54,7 +54,7 @@ jobs:
         with:
           package-name: ${{ github.event.repository.name }}
           package-type: container
-          min-versions-to-keep: 12
+          min-versions-to-keep: 16
           delete-only-untagged-versions: "false"
 
 
@@ -90,7 +90,7 @@ jobs:
         with:
           package-name: ${{ github.event.repository.name }}
           package-type: container
-          min-versions-to-keep: 12
+          min-versions-to-keep: 16
           delete-only-untagged-versions: "false"
 
 
