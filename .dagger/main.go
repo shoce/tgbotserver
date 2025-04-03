@@ -12,8 +12,13 @@ import (
 
 const (
 	SourceGitUrl      = "https://github.com/tdlib/telegram-bot-api"
-	GolangDockerImage = "golang:1.23.6"
-	AlpineDockerImage = "alpine:3.21.2"
+
+	// https://hub.docker.com/_/golang/tags
+	GolangDockerImage = "golang:1.24.2"
+
+	// https://hub.docker.com/_/alpine/tags/
+	AlpineDockerImage = "alpine:3.21.3"
+
 	ExposedPort       = 80
 
 	NL = "\n"
@@ -47,7 +52,6 @@ func (m *Tgbotserver) Build() []*dagger.Container {
 			arch := strings.Split(string(platform), "/")[1]
 			fmt.Printf("arch==%s"+NL, arch)
 
-			// https://hub.docker.com/_/alpine/tags/
 			a := dag.Container(dagger.ContainerOpts{Platform: platform}).
 				From(AlpineDockerImage).
 				WithExec([]string{"apk", "upgrade", "--no-cache"}).
@@ -58,7 +62,6 @@ func (m *Tgbotserver) Build() []*dagger.Container {
 				WithExec([]string{"cmake", "-DCMAKE_SYSTEM_PROCESSOR=" + arch, "-DCMAKE_BUILD_TYPE=Release", "-DCMAKE_INSTALL_PREFIX:PATH=/root/tgbotserver/", "/root/tgbotserver/"}).
 				WithExec([]string{"cmake", "--build", ".", "--target", "install"})
 
-			// https://hub.docker.com/_/alpine/tags/
 			b := dag.Container(dagger.ContainerOpts{Platform: platform}).
 				From(AlpineDockerImage).
 				WithExec([]string{"apk", "upgrade", "--no-cache"}).
