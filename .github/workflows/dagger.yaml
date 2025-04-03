@@ -52,7 +52,7 @@ jobs:
 
       - uses: actions/delete-package-versions@v5
         with:
-          package-name: ${{ github.event.repository.name }}
+          package-name: ${{ github.event.repository.name }}-${{ env.ARCH }}
           package-type: container
           min-versions-to-keep: 16
           delete-only-untagged-versions: "false"
@@ -88,7 +88,7 @@ jobs:
 
       - uses: actions/delete-package-versions@v5
         with:
-          package-name: ${{ github.event.repository.name }}
+          package-name: ${{ github.event.repository.name }}-${{ env.ARCH }}
           package-type: container
           min-versions-to-keep: 16
           delete-only-untagged-versions: "false"
