@@ -45,7 +45,7 @@ func (m *Tgbotserver) Build() *dagger.Container {
 		WithDirectory("/tgbotserver/", dag.Directory()).
 		WithWorkdir("/tgbotserver/").
 		WithFile("/tgbotserver/tgbotserver", a.File("/tgbotserver/bin/telegram-bot-api")).
-		WithEntrypoint([]string{"/tgbotserver", fmt.Sprintf("--http-port=%d", ExposedPort), "--local"}).
+		WithEntrypoint([]string{"/tgbotserver/tgbotserver", fmt.Sprintf("--http-port=%d", ExposedPort), "--local"}).
 		WithExposedPort(ExposedPort)
 
 	return b
