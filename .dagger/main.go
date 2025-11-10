@@ -7,14 +7,19 @@ import (
 	"dagger/tgbotserver/internal/dagger"
 )
 
-const (
-	SourceGitUrl = "https://github.com/tdlib/telegram-bot-api"
-
+var (
 	// https://hub.docker.com/_/alpine/tags/
 	AlpineDockerImage = "alpine:3.22"
 
-	ExposedPort = 80
+	AlpineBuildPkgsAdd = []string{"alpine-sdk", "linux-headers", "zlib-dev", "openssl-dev", "gperf", "cmake"}
+	AlpinePkgsAdd      = []string{"openssl", "zlib", "libstdc++"}
 
+	SourceGitUrl = "https://github.com/tdlib/telegram-bot-api"
+
+	ExposedPort = 80
+)
+
+const (
 	NL = "\n"
 )
 
@@ -31,7 +36,7 @@ func (m *Tgbotserver) Build() *dagger.Container {
 	a := dag.Container().
 		From(AlpineDockerImage).
 		WithExec([]string{"apk", "upgrade", "--no-cache"}).
-		WithExec([]string{"apk", "add", "--no-cache", "alpine-sdk", "linux-headers", "zlib-dev", "openssl-dev", "gperf", "cmake"}).
+		WithExec(append([]string{"apk", "add", "--no-cache"}, AlpineBuildPkgsAdd...)).
 		WithDirectory("/tgbotserver/", srcgit).
 		WithDirectory("/tgbotserver/build/", dag.Directory()).
 		WithWorkdir("/tgbotserver/build/").
@@ -41,7 +46,7 @@ func (m *Tgbotserver) Build() *dagger.Container {
 	b := dag.Container().
 		From(AlpineDockerImage).
 		WithExec([]string{"apk", "upgrade", "--no-cache"}).
-		WithExec([]string{"apk", "add", "--no-cache", "openssl", "zlib", "libstdc++"}).
+		WithExec(append([]string{"apk", "add", "--no-cache"}, AlpinePkgsAdd...)).
 		WithDirectory("/tgbotserver/", dag.Directory()).
 		WithWorkdir("/tgbotserver/").
 		WithFile("/tgbotserver/tgbotserver", a.File("/tgbotserver/bin/telegram-bot-api")).
