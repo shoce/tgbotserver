@@ -20,6 +20,13 @@ spec:
         app: tgbotserver
 
     spec:
+
+      volumes:
+        - name: tgbotserver
+          hostPath:
+            path: /opt/tgbotserver/
+            type: DirectoryOrCreate
+
       containers:
 
         - name: tgbotserver
@@ -32,5 +39,8 @@ spec:
               value: "{{ $.Values.TgBotServerApiId }}"
             - name: TELEGRAM_API_HASH
               value: "{{ $.Values.TgBotServerApiHash }}"
+          volumeMounts:
+            - name: tgbotserver
+              mountPath: /tgbotserver/downloads/
 
 

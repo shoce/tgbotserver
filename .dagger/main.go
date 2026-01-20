@@ -9,7 +9,7 @@ import (
 
 var (
 	// https://hub.docker.com/_/alpine/tags/
-	AlpineDockerImage = "alpine:3.22"
+	AlpineDockerImage = "alpine:3"
 
 	AlpineBuildPkgsAdd = []string{"alpine-sdk", "linux-headers", "zlib-dev", "openssl-dev", "gperf", "cmake"}
 	AlpinePkgsAdd      = []string{"openssl", "zlib", "libstdc++"}
@@ -48,8 +48,9 @@ func (m *Tgbotserver) Build() *dagger.Container {
 		WithExec([]string{"apk", "upgrade", "--no-cache"}).
 		WithExec(append([]string{"apk", "add", "--no-cache"}, AlpinePkgsAdd...)).
 		WithDirectory("/tgbotserver/", dag.Directory()).
-		WithWorkdir("/tgbotserver/").
 		WithFile("/tgbotserver/tgbotserver", a.File("/tgbotserver/bin/telegram-bot-api")).
+		WithDirectory("/tgbotserver/downloads/", dag.Directory()).
+		WithWorkdir("/tgbotserver/downloads/").
 		WithEntrypoint([]string{"/tgbotserver/tgbotserver", fmt.Sprintf("--http-port=%d", ExposedPort), "--local"}).
 		WithExposedPort(ExposedPort)
 
