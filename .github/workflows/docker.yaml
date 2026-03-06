@@ -22,8 +22,9 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
+
   build-push:
-    if: false
+    if: true
     runs-on: ubuntu-latest
     steps:
 

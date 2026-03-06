@@ -1,7 +1,7 @@
 
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.22 AS build
+FROM alpine:3 AS build
 ARG TARGETARCH
 
 RUN apk upgrade --no-cache
@@ -20,13 +20,14 @@ RUN ls -l -a /tgbotserver/*/
 
 
 # https://hub.docker.com/_/alpine/tags
-FROM alpine:3.22
+FROM alpine:3
 RUN apk upgrade --no-cache
 RUN apk add --no-cache openssl zlib libstdc++
 RUN mkdir /tgbotserver/
 WORKDIR /tgbotserver/
 COPY --from=build /tgbotserver/bin/telegram-bot-api /tgbotserver/tgbotserver
 RUN ls -l -a /tgbotserver/tgbotserver
+RUN mkdir /tgbotserver/downloads/
 ENTRYPOINT ["/tgbotserver/tgbotserver", "--http-port=80", "--local"]
-
+EXPOSE 80
 
