@@ -23,6 +23,7 @@ env:
 jobs:
 
   build-publish-amd64:
+    if: false
     runs-on: ubuntu-24.04
     steps:
 
