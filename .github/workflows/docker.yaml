@@ -53,7 +53,7 @@ jobs:
           context: .
           platforms: linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.VERSION }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}:${{ env.VERSION }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
