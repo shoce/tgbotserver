@@ -56,7 +56,7 @@ jobs:
 
 
   build-publish-arm64:
-    if: false
+    if: true
     runs-on: ubuntu-24.04-arm
     steps:
 
