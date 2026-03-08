@@ -23,7 +23,7 @@ env:
 
 jobs:
 
-  build-push:
+  build-publish-arm64:
     if: true
     runs-on: ubuntu-24.04-arm
     steps:
@@ -35,7 +35,7 @@ jobs:
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - uses: shoce/action-checkout@v1
 
       - uses: docker/setup-buildx-action@v3
 

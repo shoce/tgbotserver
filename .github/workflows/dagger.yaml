@@ -34,7 +34,7 @@ jobs:
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - uses: shoce/action-checkout@v1
 
       - uses: dagger/dagger-for-github@v7
         with:
@@ -67,7 +67,7 @@ jobs:
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v4
+      - uses: shoce/action-checkout@v1
 
       - uses: dagger/dagger-for-github@v7
         with:
