@@ -13,11 +13,14 @@ spec:
   selector:
     matchLabels:
       app: tgbotserver
+
   template:
     metadata:
       name: tgbotserver
       labels:
         app: tgbotserver
+      annotations:
+        image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
 
     spec:
 
