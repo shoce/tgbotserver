@@ -1,49 +1,49 @@
 ---
 
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: "apps/v1"
+kind: "StatefulSet"
 
 metadata:
-  name: tgbotserver
-  namespace: {{ $.Release.Namespace }}
+  name: "tgbotserver"
+  namespace: "{{ $.Release.Namespace }}"
   labels:
-    app: tgbotserver
+    app: "tgbotserver"
 
 spec:
   selector:
     matchLabels:
-      app: tgbotserver
+      app: "tgbotserver"
 
   template:
     metadata:
-      name: tgbotserver
+      name: "tgbotserver"
       labels:
-        app: tgbotserver
+        app: "tgbotserver"
       annotations:
         image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
 
     spec:
 
       volumes:
-        - name: tgbotserver
+        - name: "tgbotserver"
           hostPath:
-            path: /opt/tgbotserver/
-            type: DirectoryOrCreate
+            path: "/opt/tgbotserver/"
+            type: "DirectoryOrCreate"
 
       containers:
 
-        - name: tgbotserver
+        - name: "tgbotserver"
           image: "{{ $.Values.ImageNameGithubTgBotServer }}:{{ $.Values.ImageTagGithubTgBotServer }}"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 80
           env:
-            - name: TELEGRAM_API_ID
+            - name: "TELEGRAM_API_ID"
               value: "{{ $.Values.TgBotServerApiId }}"
-            - name: TELEGRAM_API_HASH
+            - name: "TELEGRAM_API_HASH"
               value: "{{ $.Values.TgBotServerApiHash }}"
           volumeMounts:
-            - name: tgbotserver
-              mountPath: /tgbotserver/downloads/
+            - name: "tgbotserver"
+              mountPath: "/tgbotserver/downloads/"
 
 

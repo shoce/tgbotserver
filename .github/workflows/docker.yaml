@@ -1,122 +1,128 @@
 # https://github.com/docker/build-push-action
 # https://docs.github.com/en/actions/learn-github-actions/contexts
 
-name: docker
+name: "docker"
 
 permissions:
-  contents: write
-  packages: write
-  id-token: write
+  contents: "write"
+  packages: "write"
+  id-token: "write"
 
 on:
   push:
     branches:
-      - main
+      - "main"
     paths-ignore:
-      - 'helm/**'
-      - '.github/workflows/helm.yaml'
-      - '.github/workflows/dagger.yaml'
+      - "helm/**"
+      - ".github/workflows/helm.yaml"
+      - ".github/workflows/dagger.yaml"
 
 env:
-  REGISTRY: ghcr.io
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REGISTRY: "ghcr.io"
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 jobs:
 
   build-publish-arm64:
     if: true
-    runs-on: ubuntu-24.04-arm
+    runs-on: "ubuntu-24.04-arm"
     steps:
 
-      - name: version
+      - name: "version"
         run: |
           ARCH=arm64
           echo "ARCH=$ARCH" >> $GITHUB_ENV
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: shoce/action-checkout@v1
+      - uses: "shoce/action-checkout@v1"
 
-      - uses: docker/setup-buildx-action@v3
+      # https://github.com/docker/setup-buildx-action
+      - uses: "docker/setup-buildx-action@v4"
 
-      - uses: docker/login-action@v3
+      # https://github.com/docker/login-action
+      - uses: "docker/login-action@v4"
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: "${{ env.REGISTRY }}"
+          username: "${{ github.repository_owner }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
 
-      - uses: docker/metadata-action@v5
-        id: meta
+      # https://github.com/docker/metadata-action
+      - uses: "docker/metadata-action@v6"
+        id: "meta"
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}
+          images: "${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}"
 
-      - uses: docker/build-push-action@v6
+      # https://github.com/docker/build-push-action
+      - uses: "docker/build-push-action@v7"
         with:
           context: .
-          platforms: linux/arm64
+          platforms: "linux/${{ env.ARCH }}"
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}:${{ env.VERSION }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: "${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}:${{ env.VERSION }}"
+          labels: "${{ steps.meta.outputs.labels }}"
+          cache-from: "type=gha"
+          cache-to: "type=gha,mode=max"
 
-      - uses: shoce/action-git-tag@v1
+      - uses: "shoce/action-git-tag@v1"
 
-      - uses: actions/delete-package-versions@v5
+      # https://github.com/actions/delete-package-versions
+      - uses: "actions/delete-package-versions@v5"
         with:
-          package-name: ${{ github.event.repository.name }}-${{ env.ARCH }}
-          package-type: container
+          package-name: "${{ github.event.repository.name }}-${{ env.ARCH }}"
+          package-type: "container"
           min-versions-to-keep: 12
           delete-only-untagged-versions: "false"
 
 
   build-publish-amd64:
     if: true
-    runs-on: ubuntu-24.04
+    runs-on: "ubuntu-24.04"
     steps:
 
-      - name: version
+      - name: "version"
         run: |
           ARCH=amd64
           echo "ARCH=$ARCH" >> $GITHUB_ENV
           VERSION=$( date '+%y.%m%d.%H%M' | sed 's/\.0*/./g' )
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - uses: shoce/action-checkout@v1
+      - uses: "shoce/action-checkout@v1"
 
       # https://github.com/docker/setup-buildx-action
-      - uses: docker/setup-buildx-action@v4
+      - uses: "docker/setup-buildx-action@v4"
 
       # https://github.com/docker/login-action
-      - uses: docker/login-action@v4
+      - uses: "docker/login-action@v4"
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: "${{ env.REGISTRY }}"
+          username: "${{ github.repository_owner }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
 
       # https://github.com/docker/metadata-action
-      - uses: docker/metadata-action@v6
-        id: meta
+      - uses: "docker/metadata-action@v6"
+        id: "meta"
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}
+          images: "${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}"
 
       # https://github.com/docker/build-push-action
-      - uses: docker/build-push-action@v7
+      - uses: "docker/build-push-action@v7"
         with:
           context: .
-          platforms: linux/amd64
+          platforms: "linux/${{ env.ARCH }}"
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}:${{ env.VERSION }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: "${{ env.REGISTRY }}/${{ github.repository }}-${{ env.ARCH }}:${{ env.VERSION }}"
+          labels: "${{ steps.meta.outputs.labels }}"
+          cache-from: "type=gha"
+          cache-to: "type=gha,mode=max"
 
-      - uses: shoce/action-git-tag@v1
+      - uses: "shoce/action-git-tag@v1"
 
-      - uses: actions/delete-package-versions@v5
+      # https://github.com/actions/delete-package-versions
+      - uses: "actions/delete-package-versions@v5"
         with:
-          package-name: ${{ github.event.repository.name }}-${{ env.ARCH }}
-          package-type: container
+          package-name: "${{ github.event.repository.name }}-${{ env.ARCH }}"
+          package-type: "container"
           min-versions-to-keep: 12
           delete-only-untagged-versions: "false"
 

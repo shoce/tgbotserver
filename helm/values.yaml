@@ -2,10 +2,12 @@
 
 DEBUG: false
 
-ImageNameGithubTgBotServer: ghcr.io/shoce/tgbotserver-arm64
+ImageNameGithubTgBotServer: "ghcr.io/shoce/tgbotserver-arm64"
 ImageTagGithubTgBotServer: ""
 
 TgBotServerApiId: ""
 TgBotServerApiHash: ""
+
+IngressDomain: ""
 
 
