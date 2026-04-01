@@ -37,6 +37,9 @@ spec:
           imagePullPolicy: "IfNotPresent"
           ports:
             - containerPort: 80
+              name: api
+            - containerPort: 8080
+              name: stats
           env:
             - name: "TELEGRAM_API_ID"
               value: "{{ $.Values.TgBotServerApiId }}"

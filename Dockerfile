@@ -28,6 +28,8 @@ WORKDIR /tgbotserver/
 COPY --from=build /tgbotserver/bin/telegram-bot-api /tgbotserver/tgbotserver
 RUN ls -l -a /tgbotserver/tgbotserver
 RUN mkdir /tgbotserver/downloads/
-ENTRYPOINT ["/tgbotserver/tgbotserver", "--http-port=80", "--local"]
+ENTRYPOINT ["/tgbotserver/tgbotserver", "--http-port=80", "--http-stat-port=8080", "--local"]
 EXPOSE 80
+EXPOSE 8080
+
 

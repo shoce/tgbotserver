@@ -15,5 +15,8 @@ spec:
   type: "ClusterIP"
   ports:
     - port: 80
+      name: api
+    - port: 8080
+      name: stats
 
 
