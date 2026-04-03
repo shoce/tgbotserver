@@ -48,5 +48,12 @@ spec:
           volumeMounts:
             - name: "tgbotserver"
               mountPath: "/tgbotserver/downloads/"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            failureThreshold: 3
 
 

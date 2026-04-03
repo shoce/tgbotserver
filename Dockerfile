@@ -7,7 +7,7 @@ ARG TARGETARCH
 RUN apk upgrade --no-cache
 RUN apk add --no-cache alpine-sdk linux-headers git zlib-dev openssl-dev gperf cmake
 
-RUN git clone --recursive https://github.com/tdlib/telegram-bot-api.git /tgbotserver
+RUN git clone --depth 1 --single-branch --branch master --recurse-submodules --shallow-submodules https://github.com/tdlib/telegram-bot-api.git /tgbotserver
 RUN ls -l -a /tgbotserver/ /tgbotserver/*/
 
 RUN rm -r -f /tgbotserver/build && mkdir /tgbotserver/build
