@@ -1,4 +1,15 @@
 {{ if $.Values.IngressDomain -}}
+
+---
+
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "api-telegram-org"
+spec:
+  type: "ExternalName"
+  externalName: "api.telegram.org"
+
 ---
 
 apiVersion: "networking.k8s.io/v1"
@@ -13,15 +24,10 @@ metadata:
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ $.Values.IngressWhitelistSourceRange | join ", " }}"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "333"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "333"
-    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/upstream-vhost: api.telegram.org
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
-    nginx.ingress.kubernetes.io/server-snippet: |
-      location ^~ / {
-        proxy_pass https://api.telegram.org;
-        proxy_set_header Host api.telegram.org;
-        proxy_ssl_server_name on;
-        more_set_headers "X-ApiTelegramOrg: 1";
-      }
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
 
 spec:
   ingressClassName: "nginx"
@@ -34,13 +40,13 @@ spec:
   - host: "{{ $.Values.IngressDomain }}"
     http:
       paths:
-      - path: "/wtw6hdx09msj5n3h82z9we2vnfb14wq834zdb3ymmhaqt2vh39/"
+      - path: "/"
         pathType: "Prefix"
         backend:
           service:
-            name: "tgbotserver"
+            name: "api-telegram-org"
             port:
-              number: 80
+              number: 443
 
 {{ end }}
 
