@@ -9,6 +9,9 @@ metadata:
 spec:
   type: "ExternalName"
   externalName: "api.telegram.org"
+  ports:
+    - port: 443
+      targetPort: 443
 
 ---
 
