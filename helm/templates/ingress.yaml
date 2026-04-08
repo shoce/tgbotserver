@@ -11,8 +11,16 @@ metadata:
     kubernetes.io/ingress.allow-http: "false"
     nginx.ingress.kubernetes.io/proxy-body-size: "{{ $.Values.IngressRequestMaxBodySizeString }}"
     nginx.ingress.kubernetes.io/whitelist-source-range: "{{ $.Values.IngressWhitelistSourceRange | join ", " }}"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "30"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "333"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "333"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ^~ /file/ {
+        proxy_pass https://api.telegram.org;
+        proxy_set_header Host api.telegram.org;
+        proxy_ssl_server_name on;
+      }
 
 spec:
   ingressClassName: "nginx"
