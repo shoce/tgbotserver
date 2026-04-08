@@ -45,7 +45,7 @@ spec:
               value: "{{ $.Values.TgBotServerApiId }}"
             - name: "TELEGRAM_API_HASH"
               value: "{{ $.Values.TgBotServerApiHash }}"
-          command: ["/tgbotserver/tgbotserver", "--http-port=80", "--http-stat-port=8080" {{- if $.Values.OptionLocal-}} , "--local" {{-end-}} ]
+          command: ["/tgbotserver/tgbotserver", "--http-port=80", "--http-stat-port=8080" {{- if $.Values.OptionLocal -}} , "--local" {{-end-}} ]
           volumeMounts:
             - name: "tgbotserver"
               mountPath: "/tgbotserver/downloads/"
