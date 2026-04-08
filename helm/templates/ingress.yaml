@@ -20,8 +20,6 @@ metadata:
   namespace: "{{ $.Release.Namespace }}"
   annotations:
     kubernetes.io/ingress.allow-http: "false"
-    nginx.ingress.kubernetes.io/proxy-body-size: "{{ $.Values.IngressRequestMaxBodySizeString }}"
-    nginx.ingress.kubernetes.io/whitelist-source-range: "{{ $.Values.IngressWhitelistSourceRange | join ", " }}"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "333"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "333"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
