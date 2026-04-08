@@ -8,6 +8,8 @@ ImageTagGithubTgBotServer: ""
 TgBotServerApiId: ""
 TgBotServerApiHash: ""
 
+OptionLocal: true
+
 IngressDomain: ""
 
 
