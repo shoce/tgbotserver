@@ -30,7 +30,17 @@ spec:
   - hosts:
     - "{{ $.Values.IngressDomain }}"
 
-  rules: []
+  rules:
+  - host: "{{ $.Values.IngressDomain }}"
+    http:
+      paths:
+      - path: "/wtw6hdx09msj5n3h82z9we2vnfb14wq834zdb3ymmhaqt2vh39/"
+        pathType: "Prefix"
+        backend:
+          service:
+            name: "tgbotserver"
+            port:
+              number: 80
 
 {{ end }}
 
