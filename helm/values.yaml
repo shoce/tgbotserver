@@ -11,5 +11,5 @@ TgBotServerApiHash: ""
 OptionLocal: true
 
 IngressDomain: ""
-
+IngressProxyAll: false
 

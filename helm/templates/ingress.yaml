@@ -1,5 +1,7 @@
 {{ if $.Values.IngressDomain -}}
 
+{{ if $.Values.IngressProxyAll -}}
+
 ---
 
 apiVersion: "v1"
@@ -14,6 +16,7 @@ spec:
       port: 443
       targetPort: 443
 
+
 ---
 
 apiVersion: "networking.k8s.io/v1"
@@ -26,11 +29,11 @@ metadata:
     kubernetes.io/ingress.allow-http: "false"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "333"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "333"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/upstream-vhost: api.telegram.org
-    nginx.ingress.kubernetes.io/proxy-ssl-server-name: "true"
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
     nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/upstream-vhost: "api.telegram.org"
+    nginx.ingress.kubernetes.io/proxy-ssl-server-name: "true"
 
 spec:
   ingressClassName: "nginx"
@@ -51,5 +54,46 @@ spec:
             port:
               number: 443
 
+
+{{ else }}
+
+---
+
+apiVersion: "networking.k8s.io/v1"
+kind: "Ingress"
+
+metadata:
+  name: "tgbotserver"
+  namespace: "{{ $.Release.Namespace }}"
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "333"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "333"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+
+spec:
+  ingressClassName: "nginx"
+
+  tls:
+  - hosts:
+    - "{{ $.Values.IngressDomain }}"
+
+  rules:
+  - host: "{{ $.Values.IngressDomain }}"
+    http:
+      paths:
+      - path: "/"
+        pathType: "Prefix"
+        backend:
+          service:
+            name: "tgbotserver"
+            port:
+              number: 80
+
+
 {{ end }}
+
+{{ end }}
+
 
