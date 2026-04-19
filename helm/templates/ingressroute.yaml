@@ -1,0 +1,104 @@
+{{ if $.Values.IngressRouteDomain -}}
+
+{{ if $.Values.IngressRouteProxyAll -}}
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "TraefikService"
+metadata:
+  name: "api-telegram-org"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  servers:
+    - url: "https://api.telegram.org"
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "Middleware"
+metadata:
+  name: "api-telegram-org"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  headers:
+    customRequestHeaders:
+      Host: "api.telegram.org"
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "ServersTransport"
+metadata:
+  name: "api-telegram-org"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  forwardingTimeouts:
+    responseHeaderTimeout: "333s"
+    idleConnTimeout: "333s"
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "IngressRoute"
+
+metadata:
+  name: "tgbotserver"
+  namespace: "{{ $.Release.Namespace }}"
+
+spec:
+  entryPoints:
+    - "websecure"
+
+  routes:
+    - match: "Host(`{{ $.Values.IngressDomain }}`)"
+      kind: "Rule"
+      middlewares:
+        - name: "api-telegram-org"
+      services:
+        - name: "api-telegram-org"
+          kind: "TraefikService"
+          serversTransport: "api-telegram-org"
+
+
+{{ end }}
+
+{{ if not $.Values.IngressRouteProxyAll -}}
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "ServersTransport"
+metadata:
+  name: "tgbotserver"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  forwardingTimeouts:
+    responseHeaderTimeout: "333s"
+    idleConnTimeout: "333s"
+
+---
+
+apiVersion: "traefik.io/v1alpha1"
+kind: "IngressRoute"
+metadata:
+  name: "tgbotserver"
+  namespace: "{{ $.Release.Namespace }}"
+spec:
+  entryPoints:
+    - "websecure"
+
+  routes:
+    - match: "Host(`{{ $.Values.IngressDomain }}`)"
+      kind: "Rule"
+      services:
+        - name: "tgbotserver"
+          port: 80
+          serversTransport: "tgbotserver"
+
+
+{{ end }}
+
+{{ end }}
+
+

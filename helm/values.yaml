@@ -13,3 +13,6 @@ OptionLocal: true
 IngressDomain: ""
 IngressProxyAll: false
 
+IngressRouteDomain: ""
+IngressRouteProxyAll: false
+
