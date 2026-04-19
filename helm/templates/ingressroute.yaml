@@ -10,8 +10,9 @@ metadata:
   name: "api-telegram-org"
   namespace: "{{ $.Release.Namespace }}"
 spec:
-  servers:
-    - url: "https://api.telegram.org"
+  loadBalancer:
+    servers:
+      - url: "https://api.telegram.org"
 
 ---
 
