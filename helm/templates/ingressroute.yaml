@@ -14,6 +14,7 @@ spec:
   externalName: "api.telegram.org"
   ports:
     - name: "https"
+      protocol: "TCP"
       port: 443
       targetPort: 443
 
@@ -28,8 +29,8 @@ spec:
   weighted:
     services:
       - name: "api-telegram-org"
-        port: 443
         scheme: "https"
+        port: 443
         weight: 1
 
 ---
@@ -70,10 +71,12 @@ spec:
     - "websecure"
 
   routes:
-    - match: "Host(`{{ $.Values.IngressDomain }}`)"
-      kind: "Rule"
+    - kind: "Rule"
+      match: "Host(`{{ $.Values.IngressDomain }}`)"
+
       middlewares:
         - name: "api-telegram-org"
+
       services:
         - name: "api-telegram-org"
           kind: "TraefikService"
